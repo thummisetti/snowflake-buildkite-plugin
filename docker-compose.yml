@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  snowflake-deploy:
+    build: .
+    environment:
+      - SNOWFLAKE_USER=<your_username>
+      - SNOWFLAKE_PASSWORD=<your_password>
+      - SNOWFLAKE_ACCOUNT=<your_account_identifier>
+      - SNOWFLAKE_WAREHOUSE=<your_warehouse>
+      - SNOWFLAKE_DATABASE=<your_database>
+      - SNOWFLAKE_SCHEMA=<your_schema>
+    command: python deploy.py

@@ -1,0 +1,10 @@
+snowflake-connector-python==2.7.4
+certifi==2022.12.7
+charset-normalizer==2.1.1
+pydantic==1.10.2
+python-dateutil==2.8.2
+requests==2.28.1
+setuptools==58.1.0
+six==1.16.0
+urllib3==1.26.13
+wheel==0.37.1

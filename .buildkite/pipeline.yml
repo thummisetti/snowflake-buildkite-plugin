@@ -1,0 +1,5 @@
+steps:
+  - label: "Deploy SQL to Snowflake"
+    commands:
+      - pip install -r requirements.txt
+      - python deploy.py
