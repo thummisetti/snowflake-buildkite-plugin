@@ -1,47 +1,77 @@
-# Snowflake CI/CD SQL Deployment
+# Snowflake Buildkite Plugin
 
-This repository provides a CI/CD pipeline to automatically deploy SQL DDL to a Snowflake instance when changes are merged to the `master` branch.
+![Build Status](https://img.shields.io/github/actions/workflow/status/thummisetti/snowflake-buildkite-plugin/build.yml?branch=main)
+![License](https://img.shields.io/github/license/thummisetti/snowflake-buildkite-plugin)
+![Version](https://img.shields.io/github/v/release/thummisetti/snowflake-buildkite-plugin)
 
-## Setup Instructions
+## Overview
 
-### 1. Add Snowflake Credentials
+The **Snowflake Buildkite Plugin** integrates Snowflake with Buildkite pipelines, enabling seamless execution of Snowflake SQL commands and scripts within your CI/CD workflows.
 
-Make sure to add your Snowflake credentials as environment variables, either in your CI/CD pipeline or locally when running the deployment.
+## Features
 
-#### Required Environment Variables:
-- `SNOWFLAKE_USER`: Your Snowflake username.
-- `SNOWFLAKE_PASSWORD`: Your Snowflake password.
-- `SNOWFLAKE_ACCOUNT`: Your Snowflake account identifier (e.g., `xy12345.us-east-1`).
-- `SNOWFLAKE_WAREHOUSE`: The Snowflake warehouse to use.
-- `SNOWFLAKE_DATABASE`: The target database.
-- `SNOWFLAKE_SCHEMA`: The target schema.
+- Run SQL queries against Snowflake within Buildkite pipelines
+- Automate schema migrations and data updates
+- Secure authentication via environment variables
+- Supports multiple Snowflake accounts
 
-In Buildkite, you can configure these environment variables in your pipeline settings or use a `.env` file.
+## Installation
 
-### 2. Prepare SQL DDL
+To use this plugin, add the following to your `pipeline.yml`:
 
-Place your SQL DDL statement in the `your_ddl.sql` file. This will be executed in your Snowflake instance when the pipeline runs.
-
-### 3. Running Locally
-
-To test the deployment locally, you can use Docker to simulate the pipeline execution:
-
-```bash
-docker-compose up --build
+```yaml
+steps:
+  - label: "Run Snowflake Query"
+    plugins:
+      - thummisetti/snowflake-buildkite-plugin#v1.0.0:
+          account: "my-snowflake-account"
+          user: "buildkite_user"
+          password: "BUILDKITE_PLUGIN_SNOWFLAKE_PASSWORD"
+          database: "my_database"
+          schema: "public"
+          sql: "SELECT * FROM my_table;"
 ```
-This will install the dependencies, connect to Snowflake using the provided credentials, and execute the SQL DDL.
 
-### 4. CI-CD Pipeline
+## Usage Examples
 
-When changes are pushed to the master branch, the Buildkite pipeline will automatically trigger and deploy the SQL DDL to Snowflake.
+### Running a Query
 
-Ensure that the Buildkite pipeline is set up with the .buildkite/pipeline.yml configuration.
-Ensure that the required Snowflake environment variables are provided in the Buildkite environment.
-On every merge to master, the pipeline will install the dependencies and execute the SQL deployment.
+```yaml
+steps:
+  - label: "Fetch Data"
+    plugins:
+      - thummisetti/snowflake-buildkite-plugin#v1.0.0:
+          sql: "SELECT COUNT(*) FROM users;"
+```
 
-### 5. Troubleshooting
+### Executing a Script
 
-If the deployment fails, ensure that:
+```yaml
+steps:
+  - label: "Run SQL Script"
+    plugins:
+      - thummisetti/snowflake-buildkite-plugin#v1.0.0:
+          script: "migrations/schema_update.sql"
+```
 
-The Snowflake credentials are correct and properly passed as environment variables.
-The SQL DDL in your_ddl.sql is valid and does not contain syntax errors.
+## Contributing
+
+We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on how to get started.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
+## Support
+
+For issues and feature requests, please open an issue in the [GitHub repository](https://github.com/thummisetti/snowflake-buildkite-plugin/issues).
+
+## Roadmap
+
+Planned enhancements include:
+- Support for stored procedures
+- Enhanced error handling
+- Integration with secrets managers
+
+Stay tuned for updates!
+
